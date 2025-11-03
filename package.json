@@ -1,10 +1,11 @@
 {
-  "name": "event-planner-backtend",
+  "name": "event-planner-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API for Event Planner Application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "keywords": [],
   "author": "",
