@@ -11,16 +11,19 @@ connectDB();
 
 const app = express();
 
-// Simple CORS configuration
+// CORS configuration for frontend connection
 app.use(
   cors({
-    origin: true, // Allow all origins for now
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      'http://localhost:3000',  // Next.js default port
+      'http://localhost:3001',  // Alternative port
+      'http://127.0.0.1:3000'   // Alternative localhost
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
-
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
