@@ -39,6 +39,23 @@ const userSchema = new mongoose.Schema(
         message: "Please provide a valid phone number (e.g., +1234567890)",
       },
     },
+    // ADD THESE NEW FIELDS FOR PHASE 5:
+    bio: {
+      type: String,
+      maxlength: [500, "Bio cannot exceed 500 characters"],
+      trim: true,
+    },
+    location: {
+      type: String,
+      maxlength: [100, "Location cannot exceed 100 characters"],
+      trim: true,
+    },
+    interests: [{
+      type: String,
+      trim: true,
+      maxlength: [50, "Each interest cannot exceed 50 characters"],
+    }],
+    // EXISTING FIELDS:
     avatar: {
       type: String,
       default: "",

@@ -8,19 +8,29 @@ const {
   searchEvents,
   getMyEvents,
 } = require("../controllers/eventController");
+const {
+  createRSVP,
+  cancelRSVP,
+  getEventAttendees,
+} = require("../controllers/rsvpController");
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // Public routes (no authentication needed)
-router.get("/", getAllEvents);                    // GET /api/events
-router.get("/search", searchEvents);              // GET /api/events/search
-router.get("/:id", getEventById);                 // GET /api/events/:id
+router.get("/", getAllEvents);
+router.get("/search", searchEvents);
+router.get("/:id", getEventById);
+router.get("/:id/attendees", getEventAttendees);
 
 // Protected routes (authentication required)
-router.post("/", protect, createEvent);           // POST /api/events
-router.put("/:id", protect, updateEvent);         // PUT /api/events/:id
-router.delete("/:id", protect, deleteEvent);      // DELETE /api/events/:id
-router.get("/my/events", protect, getMyEvents);   // GET /api/events/my/events
+router.post("/", protect, createEvent);
+router.put("/:id", protect, updateEvent);
+router.delete("/:id", protect, deleteEvent);
+router.get("/my/events", protect, getMyEvents);
+
+// RSVP routes (authentication required)
+router.post("/:id/rsvp", protect, createRSVP);
+router.delete("/:id/rsvp", protect, cancelRSVP);
 
 module.exports = router;
