@@ -76,7 +76,7 @@ rsvpSchema.statics.getEventAttendance = async function (eventId) {
   const result = await this.aggregate([
     {
       $match: {
-        event: mongoose.Types.ObjectId(eventId),
+        event: new mongoose.Types.ObjectId(eventId),
         status: "attending",
       },
     },

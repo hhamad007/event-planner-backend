@@ -116,6 +116,19 @@ try {
   console.error("❌ Failed to load user routes:", error.message);
 }
 
+
+// RSVP routes
+try {
+  console.log("Loading RSVP routes...");
+  const rsvpRoutes = require("./routes/rsvpRoutes");
+  app.use("/api/rsvp", rsvpRoutes);
+  console.log("✅ RSVP routes loaded successfully");
+} catch (error) {
+  console.error("❌ Failed to load RSVP routes:", error.message);
+}
+
+
+
 console.log("✅ Server setup complete!");
 
 module.exports = app;
