@@ -144,7 +144,7 @@ const eventSchema = new mongoose.Schema({
 eventSchema.index({ date: 1 });
 eventSchema.index({ category: 1 });
 eventSchema.index({ organizer: 1 });
-eventSchema.index({ location.city: 1 });
+eventSchema.index({ "location.city": 1 });
 eventSchema.index({ tags: 1 });
 
 // Virtual for checking if event is full
