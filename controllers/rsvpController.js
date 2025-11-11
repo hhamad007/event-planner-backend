@@ -16,8 +16,8 @@ const createRSVP = async (req, res) => {
       });
     }
 
-    // Check if user is the organizer
-    if (event.organizer.toString() === req.user.id) {
+    // Check if user is the organiser
+    if (event.organiser.toString() === req.user.id) {
       return res.status(400).json({
         success: false,
         message: "Cannot RSVP to your own event",

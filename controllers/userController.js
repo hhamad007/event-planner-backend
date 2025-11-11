@@ -79,7 +79,7 @@ const updateUserProfile = async (req, res) => {
 // @access  Private
 const getUserEvents = async (req, res) => {
   try {
-    const events = await Event.find({ organizer: req.user.id }).sort({
+    const events = await Event.find({ organiser: req.user.id }).sort({
       createdAt: -1,
     });
 
@@ -124,7 +124,7 @@ const getUserRSVPs = async (req, res) => {
 const getUserEventHistory = async (req, res) => {
   try {
     // Get events created by user
-    const createdEvents = await Event.find({ organizer: req.user.id })
+    const createdEvents = await Event.find({ organiser: req.user.id })
       .select("title date location status")
       .lean();
 
