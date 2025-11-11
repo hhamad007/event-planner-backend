@@ -10,7 +10,7 @@ const getAllEvents = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const events = await Event.find({ status: "published", isActive: true })
-      .populate("organizer", "name email")
+      .populate("organiser", "name email")
       .sort({ date: 1 })
       .skip(skip)
       .limit(limit);
@@ -43,11 +43,11 @@ const createEvent = async (req, res) => {
   try {
     const eventData = {
       ...req.body,
-      organizer: req.user.id,
+      organiser: req.user.id,
     };
 
     const event = await Event.create(eventData);
-    await event.populate("organizer", "name email");
+    await event.populate("organiser", "name email");
 
     res.status(201).json({
       success: true,
@@ -67,7 +67,7 @@ const createEvent = async (req, res) => {
 const getEventById = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id).populate(
-      "organizer",
+      "organiser",
       "name email"
     );
 
@@ -78,10 +78,10 @@ const getEventById = async (req, res) => {
       });
     }
 
-    // Check if event is active and published (unless user is organizer)
+    // Check if event is active and published (unless user is organiser)
     if (
       (!event.isActive || event.status !== "published") &&
-      (!req.user || event.organizer._id.toString() !== req.user.id)
+      (!req.user || event.organiser._id.toString() !== req.user.id)
     ) {
       return res.status(404).json({
         success: false,
@@ -115,8 +115,8 @@ const updateEvent = async (req, res) => {
       });
     }
 
-    // Check if user is organizer
-    if (event.organizer.toString() !== req.user.id) {
+    // Check if user is organiser
+    if (event.organiser.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "Not authorized to update this event",
@@ -127,7 +127,7 @@ const updateEvent = async (req, res) => {
       req.params.id,
       req.body,
       { new: true, runValidators: true }
-    ).populate("organizer", "name email");
+    ).populate("organiser", "name email");
 
     res.json({
       success: true,
@@ -155,8 +155,8 @@ const deleteEvent = async (req, res) => {
       });
     }
 
-    // Check if user is organizer
-    if (event.organizer.toString() !== req.user.id) {
+    // Check if user is organiser
+    if (event.organiser.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "Not authorized to delete this event",
@@ -230,7 +230,7 @@ const searchEvents = async (req, res) => {
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     const events = await Event.find(query)
-      .populate("organizer", "name email")
+      .populate("organiser", "name email")
       .sort({ [sortBy]: sortOrder === "desc" ? -1 : 1 })
       .skip(skip)
       .limit(parseInt(limit));
@@ -258,7 +258,7 @@ const searchEvents = async (req, res) => {
 // @access  Private
 const getMyEvents = async (req, res) => {
   try {
-    const events = await Event.find({ organizer: req.user.id }).sort({
+    const events = await Event.find({ organiser: req.user.id }).sort({
       createdAt: -1,
     });
 
