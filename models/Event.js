@@ -143,7 +143,7 @@ const eventSchema = new mongoose.Schema({
 // Indexes for better query performance
 eventSchema.index({ date: 1 });
 eventSchema.index({ category: 1 });
-eventSchema.index({ organizer: 1 });
+eventSchema.index({ organiser: 1 });
 eventSchema.index({ "location.city": 1 });
 eventSchema.index({ tags: 1 });
 
