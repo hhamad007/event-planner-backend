@@ -1,5 +1,5 @@
 const Event = require("../models/Event");
-
+const RSVP = require("../models/RSVP");
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Public
@@ -89,9 +89,15 @@ const getEventById = async (req, res) => {
       });
     }
 
+    const attendanceData = await RSVP.getEventAttendance(event._id);
+    const eventObj = event.toObject();
+    eventObj.currentAttendees = attendanceData.totalAttendees || 0;
+    eventObj.availableSpots = event.maxAttendees - eventObj.currentAttendees;
+    eventObj.isFull = eventObj.currentAttendees >= event.maxAttendees;
+
     res.json({
       success: true,
-      data: event,
+      data: eventObj,
     });
   } catch (error) {
     res.status(500).json({
