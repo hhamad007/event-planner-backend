@@ -112,15 +112,12 @@ try {
 
 console.log("✅ All routes loaded successfully!");
 
-// Error handling middleware - Must be after all routes
-const errorHandler = require("./middleware/errorHandler");
-app.use(errorHandler);
-
-// 404 handler for unmatched routes
-app.use('*', (req, res) => {
+// 404 handler for unmatched routes (FIXED - moved before error handler)
+app.use((req, res, next) => {
   res.status(404).json({
     success: false,
     message: `Route ${req.originalUrl} not found`,
+    method: req.method,
     availableEndpoints: {
       auth: "/api/auth",
       events: "/api/events", 
@@ -131,6 +128,10 @@ app.use('*', (req, res) => {
     }
   });
 });
+
+// Error handling middleware - Must be LAST
+const errorHandler = require("./middleware/errorHandler");
+app.use(errorHandler);
 
 console.log("✅ Server setup complete!");
 
