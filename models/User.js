@@ -50,15 +50,27 @@ const userSchema = new mongoose.Schema(
       maxlength: [100, "Location cannot exceed 100 characters"],
       trim: true,
     },
-    interests: [{
-      type: String,
-      trim: true,
-      maxlength: [50, "Each interest cannot exceed 50 characters"],
-    }],
+    interests: [
+      {
+        type: String,
+        trim: true,
+        maxlength: [50, "Each interest cannot exceed 50 characters"],
+      },
+    ],
     // EXISTING FIELDS:
     avatar: {
       type: String,
       default: "",
+    },
+    profilePicture: {
+      url: {
+        type: String,
+        default: null,
+      },
+      publicId: {
+        type: String,
+        default: null,
+      },
     },
     isActive: {
       type: Boolean,

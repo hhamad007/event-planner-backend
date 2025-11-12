@@ -170,41 +170,41 @@ const updateRSVP = async (req, res) => {
   try {
     const rsvp = await RSVP.findOne({
       user: req.user.id,
-      event: req.params.eventId
+      event: req.params.eventId,
     });
 
     if (!rsvp) {
       return res.status(404).json({
         success: false,
-        message: 'RSVP not found'
+        message: "RSVP not found",
       });
     }
 
     // Update allowed fields
-    const allowedUpdates = ['status', 'numberOfGuests', 'specialRequests'];
+    const allowedUpdates = ["status", "numberOfGuests", "specialRequests"];
     const updates = {};
-    
-    Object.keys(req.body).forEach(key => {
+
+    Object.keys(req.body).forEach((key) => {
       if (allowedUpdates.includes(key)) {
         updates[key] = req.body[key];
       }
     });
 
-    const updatedRSVP = await RSVP.findByIdAndUpdate(
-      rsvp._id,
-      updates,
-      { new: true, runValidators: true }
-    ).populate('user', 'name email')
-     .populate('event', 'title date location');
+    const updatedRSVP = await RSVP.findByIdAndUpdate(rsvp._id, updates, {
+      new: true,
+      runValidators: true,
+    })
+      .populate("user", "name email")
+      .populate("event", "title date location");
 
     res.json({
       success: true,
-      data: updatedRSVP
+      data: updatedRSVP,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -215,18 +215,18 @@ const updateRSVP = async (req, res) => {
 const getUserRSVPs = async (req, res) => {
   try {
     const rsvps = await RSVP.find({ user: req.user.id })
-      .populate('event', 'title date location price category')
+      .populate("event", "title date location price category")
       .sort({ createdAt: -1 });
 
     res.json({
       success: true,
       count: rsvps.length,
-      data: rsvps
+      data: rsvps,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -238,8 +238,8 @@ const getRSVPStatus = async (req, res) => {
   try {
     const rsvp = await RSVP.findOne({
       user: req.user.id,
-      event: req.params.eventId
-    }).populate('event', 'title date maxAttendees attendeeCount');
+      event: req.params.eventId,
+    }).populate("event", "title date maxAttendees attendeeCount");
 
     if (!rsvp) {
       return res.json({
@@ -247,8 +247,8 @@ const getRSVPStatus = async (req, res) => {
         data: {
           hasRSVP: false,
           status: null,
-          message: 'No RSVP found for this event'
-        }
+          message: "No RSVP found for this event",
+        },
       });
     }
 
@@ -259,13 +259,13 @@ const getRSVPStatus = async (req, res) => {
         rsvp: rsvp,
         status: rsvp.status,
         numberOfGuests: rsvp.numberOfGuests || 0,
-        rsvpDate: rsvp.rsvpDate
-      }
+        rsvpDate: rsvp.rsvpDate,
+      },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 }; // Fixed: Added missing closing brace
@@ -276,5 +276,5 @@ module.exports = {
   getEventAttendees,
   updateRSVP,
   getUserRSVPs,
-  getRSVPStatus
+  getRSVPStatus,
 };

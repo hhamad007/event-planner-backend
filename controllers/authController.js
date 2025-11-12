@@ -161,6 +161,7 @@ const getProfile = async (req, res) => {
           role: user.role,
           phone: user.phone,
           avatar: user.avatar,
+          profilePicture: user.profilePicture,
           isActive: user.isActive,
           lastLogin: user.lastLogin,
           createdAt: user.createdAt,
@@ -202,6 +203,7 @@ const updateProfile = async (req, res) => {
           role: updatedUser.role,
           phone: updatedUser.phone,
           avatar: updatedUser.avatar,
+          profilePicture: updatedUser.profilePicture,
           updatedAt: updatedUser.updatedAt
         }
       }

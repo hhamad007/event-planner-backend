@@ -15,15 +15,16 @@ const app = express();
 app.use(
   cors({
     origin: [
-      'http://localhost:3000',  // Next.js default port
-      'http://localhost:3001',  // Alternative port
-      'http://127.0.0.1:3000'   // Alternative localhost
+      "http://localhost:3000", // Next.js default port
+      "http://localhost:3001", // Alternative port
+      "http://127.0.0.1:3000", // Alternative localhost
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
@@ -68,7 +69,7 @@ try {
   console.error("❌ Failed to load auth routes:", error.message);
 }
 
-// Event routes - NOW USING PROPER ROUTES INSTEAD OF INLINE
+// Event routes
 try {
   console.log("Loading event routes...");
   const eventRoutes = require("./routes/eventRoutes");
@@ -96,17 +97,7 @@ try {
   });
 }
 
-// Admin routes (optional)
-try {
-  console.log("Loading admin routes...");
-  const adminRoutes = require("./routes/adminRoutes");
-  app.use("/api/admin", adminRoutes);
-  console.log("✅ Admin routes loaded successfully");
-} catch (error) {
-  console.error("❌ Failed to load admin routes:", error.message);
-}
-
-// User routes (optional)
+// User routes
 try {
   console.log("Loading user routes...");
   const userRoutes = require("./routes/userRoutes");
@@ -115,7 +106,6 @@ try {
 } catch (error) {
   console.error("❌ Failed to load user routes:", error.message);
 }
-
 
 // RSVP routes
 try {
@@ -127,8 +117,18 @@ try {
   console.error("❌ Failed to load RSVP routes:", error.message);
 }
 
-
+// Upload routes - IMPORTANT: Load after other routes for proper middleware order
+try {
+  console.log("Loading upload routes...");
+  const uploadRoutes = require("./routes/uploadRoutes");
+  app.use("/api/upload", uploadRoutes);
+  console.log("✅ Upload routes loaded successfully");
+} catch (error) {
+  console.error("❌ Failed to load upload routes:", error.message);
+  console.error("Upload functionality will not be available");
+}
 
 console.log("✅ Server setup complete!");
 
+// Export the app
 module.exports = app;
