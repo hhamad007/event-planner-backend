@@ -41,6 +41,24 @@ const getAllEvents = async (req, res) => {
 // @access  Private
 const createEvent = async (req, res) => {
   try {
+    // Example: parsing location if it's a string
+    if (typeof req.body.location === "string") {
+      try {
+        req.body.location = JSON.parse(req.body.location);
+      } catch (err) {
+        // Handle parse error if needed
+        req.body.location = {};
+      }
+    }
+
+    if (typeof req.body.tags === "string") {
+      try {
+        req.body.tags = JSON.parse(req.body.tags);
+      } catch (err) {
+        req.body.tags = [];
+      }
+    }
+
     const eventData = {
       ...req.body,
       organiser: req.user.id,
