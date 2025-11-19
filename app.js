@@ -19,7 +19,6 @@ app.use(
       "http://localhost:3001", // Alternative port
       "http://127.0.0.1:3000", // Alternative localhost
       "https://your-frontend-domain.vercel.app", // Add your deployed frontend URL
-      "https://your-frontend-domain.netlify.app", // If using Netlify
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],

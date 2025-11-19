@@ -51,11 +51,7 @@ const eventSchema = new mongoose.Schema(
         required: [true, "City is required"],
         trim: true,
       },
-      state: {
-        type: String,
-        trim: true,
-      },
-      zipCode: {
+      postCode: {
         type: String,
         trim: true,
       },

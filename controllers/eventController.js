@@ -192,7 +192,6 @@ const searchEvents = async (req, res) => {
       search,
       category,
       city,
-      state,
       priceMin,
       priceMax,
       dateFrom,
@@ -217,7 +216,6 @@ const searchEvents = async (req, res) => {
     // Filters
     if (category) query.category = category;
     if (city) query["location.city"] = new RegExp(city, "i");
-    if (state) query["location.state"] = new RegExp(state, "i");
 
     // Price range
     if (priceMin || priceMax) {
