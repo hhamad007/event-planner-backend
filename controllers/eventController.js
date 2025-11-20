@@ -1,5 +1,6 @@
 const Event = require("../models/Event");
 const RSVP = require("../models/RSVP");
+const { uploadEventImageToCloud } = require("../config/cloudinary");
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Public
@@ -41,27 +42,28 @@ const getAllEvents = async (req, res) => {
 // @access  Private
 const createEvent = async (req, res) => {
   try {
-    // Example: parsing location if it's a string
+    // Parse nested fields if sent as strings
     if (typeof req.body.location === "string") {
-      try {
-        req.body.location = JSON.parse(req.body.location);
-      } catch (err) {
-        // Handle parse error if needed
-        req.body.location = {};
-      }
+      req.body.location = JSON.parse(req.body.location);
+    }
+    if (typeof req.body.tags === "string") {
+      req.body.tags = JSON.parse(req.body.tags);
     }
 
-    if (typeof req.body.tags === "string") {
-      try {
-        req.body.tags = JSON.parse(req.body.tags);
-      } catch (err) {
-        req.body.tags = [];
-      }
+    let imageData = null;
+    if (req.file && req.file.buffer) {
+      // Upload image buffer to Cloudinary
+      const result = await uploadEventImageToCloud(req.file.buffer, Date.now());
+      imageData = {
+        url: result.secure_url,
+        publicId: result.public_id,
+      };
     }
 
     const eventData = {
       ...req.body,
       organiser: req.user.id,
+      image: imageData,
     };
 
     const event = await Event.create(eventData);

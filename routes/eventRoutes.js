@@ -15,6 +15,7 @@ const {
   getEventAttendees,
 } = require("../controllers/rsvpController");
 const { protect } = require("../middleware/authMiddleware");
+const { uploadEventImage } = require("../config/cloudinary");
 
 const router = express.Router();
 const upload = multer(); // Use default memory storage or configure as needed
@@ -26,7 +27,7 @@ router.get("/:id", getEventById);
 router.get("/:id/attendees", getEventAttendees);
 
 // Protected routes (authentication required)
-router.post("/", protect, upload.single("image"), createEvent);
+router.post("/", protect, uploadEventImage.single("image"), createEvent);
 router.put("/:id", protect, updateEvent);
 router.delete("/:id", protect, deleteEvent);
 router.get("/my/events", protect, getMyEvents);
