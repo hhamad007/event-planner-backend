@@ -278,11 +278,11 @@ const searchEvents = async (req, res) => {
 };
 
 // @desc    Get user's events
-// @route   GET /api/events/my/events
+// @route   GET /api/events/my/events/:id
 // @access  Private
 const getMyEvents = async (req, res) => {
   try {
-    const events = await Event.find({ organiser: req.user.id }).sort({
+    const events = await Event.find({ organiser: req.params.id }).sort({
       createdAt: -1,
     });
 
