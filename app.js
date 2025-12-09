@@ -18,7 +18,7 @@ app.use(
       "http://localhost:3000", // Next.js default port
       "http://localhost:3001", // Alternative port
       "http://127.0.0.1:3000", // Alternative localhost
-      "https://your-frontend-domain.vercel.app", // Add your deployed frontend URL
+      "https://event-planner-fe-uiw7.onrender.com", // Add your deployed frontend URL
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],

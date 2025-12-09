@@ -282,6 +282,7 @@ const searchEvents = async (req, res) => {
 // @access  Private
 const getMyEvents = async (req, res) => {
   try {
+    //req.user.id
     const events = await Event.find({ organiser: req.params.id }).sort({
       createdAt: -1,
     });

@@ -31,6 +31,7 @@ router.post("/", protect, uploadEventImage.single("image"), createEvent);
 router.put("/:id", protect, updateEvent);
 router.delete("/:id", protect, deleteEvent);
 router.get("/my/events/:id", protect, getMyEvents);
+// router.get("/my/events", protect, getMyEvents);
 
 // RSVP routes (authentication required)
 router.post("/:id/rsvp", protect, createRSVP);
